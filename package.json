@@ -7,7 +7,10 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate -m"
+    "generate": "nuxt generate -m",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug"
   },
   "dependencies": {
     "@nuxt/content": "^1.14.0",
@@ -41,7 +44,9 @@
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/tailwindcss": "^4.0.3",
+    "@playwright/test": "^1.57.0",
     "@tailwindcss/line-clamp": "^0.2.1",
+    "@types/node": "^24.10.2",
     "concurrent-transform": "^1.0.0",
     "gulp": "^4.0.2",
     "gulp-awspublish": "^4.1.2",
