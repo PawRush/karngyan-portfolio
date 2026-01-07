@@ -94,3 +94,7 @@ static/sw.*
 .awspublish-karngyan.com
 
 .env
+
+# playwright
+test-results/
+playwright-report/
