@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: 'html',
   timeout: 60000,
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.BASE_URL ?? 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     actionTimeout: 15000,
@@ -23,10 +23,12 @@ export default defineConfig({
     },
   ],
 
-  webServer: {
-    command: 'NODE_OPTIONS="--openssl-legacy-provider" npm run dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  },
+  webServer: process.env.BASE_URL
+    ? undefined
+    : {
+        command: 'NODE_OPTIONS="--openssl-legacy-provider" npm run dev',
+        url: 'http://localhost:3000',
+        reuseExistingServer: !process.env.CI,
+        timeout: 120000,
+      },
 });
