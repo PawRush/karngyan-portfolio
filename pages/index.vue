@@ -8,7 +8,18 @@
 </template>
 
 <script>
+import HeroSection from '~/components/home/HeroSection.vue'
+import GithubCalendar from '~/components/home/GithubCalendar.vue'
+import Recommendations from '~/components/home/Recommendations.vue'
+import RecentBlog from '~/components/home/RecentBlog.vue'
+
 export default {
+  components: {
+    HeroSection,
+    GithubCalendar,
+    Recommendations,
+    LazyRecentBlog: RecentBlog
+  },
   head() {
     return {
       title: `home -- ${this.$config.name}`,

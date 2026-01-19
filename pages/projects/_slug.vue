@@ -41,17 +41,7 @@
           </div>
 
         </div>
-        <div v-if="$config.firebase.enabled">
-          <div class="my-6">
-            <Like :slug="project.slug" />
-          </div>
-          <div id="comments" class="border-t border-gray-700 border-dashed mt-6 py-5">
-            <CommentInput :slug="project.slug"/>
-          </div>
-          <div class="space-y-4 max-w-7xl">
-            <Comment v-for="(comment, index) in comments" :comment="comment"  :key="index" />
-          </div>
-        </div>
+
       </article>
     </div>
   </div>
@@ -66,7 +56,7 @@
 
 <script>
 export default {
-  async asyncData({ $content, params, store, route, $config }) {
+  async asyncData({ $content, params, route, $config }) {
     const project = await $content('projects', params.slug).fetch()
     project.twitterShareUrl = `https://twitter.com/intent/tweet?text=${project.title} by @${project.twitter}&url=https://${$config.domain}${route.fullPath}`
     return {
@@ -93,35 +83,8 @@ export default {
         top: 0,
         behavior: 'smooth'
       })
-    },
-    cmp(a, b) {
-      if (a.created < b.created) return 1
-      if (a.created > b.created) return -1
-      return 0
     }
-  },
-  computed: {
-    comments() {
-      const comments = [ ...(this.$store.state.comments[this.project.slug] ? this.$store.state.comments[this.project.slug] : [])]
-      return comments.sort(this.cmp)
-    }
-  },
-  data() {
-    return {
-      toastOptions: { duration: 2000, theme: 'bubble' }
-    }
-  },
-  async fetch() {
-    if (!this.$config.firebase.enabled) {
-      return
-    }
-    try {
-      await this.$store.dispatch('fetchComments', {slug: this.project.slug})
-    } catch (e) {
-      this.$toast.error(e.toString(), this.toastOptions)
-      console.error(e)
-    }
-  },
+  }
 }
 </script>
 

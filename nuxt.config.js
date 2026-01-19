@@ -57,6 +57,8 @@ const nuxtConfig = {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+  telemetry: false,
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: `home -- ${config.name}`,
@@ -103,13 +105,15 @@ const nuxtConfig = {
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: [
-    '@/components',
-    '@/components/home',
-    '@/components/logos',
-    '@/components/blog',
-    '@/components/projects',
-  ],
+  components: {
+    dirs: [
+      '~/components',
+      '~/components/home',
+      '~/components/logos',
+      '~/components/blog',
+      '~/components/projects',
+    ]
+  },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -221,33 +225,6 @@ const nuxtConfig = {
   }
 }
 
-if (config.firebase.enabled) {
-  nuxtConfig.modules.unshift('@nuxtjs/firebase')
-  nuxtConfig.buildModules.push('@nuxtjs/dotenv')
-  nuxtConfig.router.middleware.push('auth')
-  nuxtConfig.firebase = {
-    config: {
-      apiKey: process.env.API_KEY,
-      authDomain: process.env.AUTH_DOMAIN,
-      projectId: process.env.PROJECT_ID,
-      storageBucket: process.env.STORAGE_BUCKET,
-      messagingSenderId: process.env.MESSAGING_SENDER_ID,
-      appId: process.env.APP_ID,
-      measurementId: process.env.MEASUREMENT_ID
-    },
-    services: {
-      auth: {
-        persistence: 'local',
-        initialize: {
-          onAuthStateChangedAction: 'authAction',
-          subscribeManually: false
-        },
-        ssr: false,
-      },
-      firestore: true
-    }
-  }
-}
 
 if (config.googleAnalyticsV4.enabled) {
   nuxtConfig.buildModules.unshift('@nuxtjs/google-analytics')

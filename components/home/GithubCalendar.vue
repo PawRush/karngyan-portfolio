@@ -5,7 +5,7 @@
         <p class="text-xs leading-6 text-indigo-600 font-semibold tracking-wide lowercase">{{ $t('githubCalendar.subtext') }}</p>
         <a :href="`https://github.com/${$config.social.github}`" target="_blank" rel="noreferrer" class="mt-2 text-3xl hover:text-hot-pink leading-8 font-extrabold tracking-tight text-gray-500">{{ $t('githubCalendar.header') }}</a>
       </div>
-      <div class="calendar max-w-6xl content-center lowercase">
+      <div ref="calendar" class="calendar max-w-6xl content-center lowercase">
 
       </div>
     </div>
@@ -13,11 +13,31 @@
 </template>
 
 <script>
-import GitHubCalendar from 'github-calendar'
-
 export default {
+  data() {
+    return {
+      initialized: false
+    }
+  },
   mounted() {
-    GitHubCalendar(".calendar", this.$config.social.github, { responsive: true, tooltips: true });
+    // Disabled due to library bug - uncomment when github-calendar is fixed
+    // if (process.client) {
+    //   setTimeout(() => {
+    //     this.initCalendar()
+    //   }, 500)
+    // }
+  },
+  methods: {
+    async initCalendar() {
+      if (this.initialized || !this.$refs.calendar) return
+      try {
+        const GitHubCalendar = (await import('github-calendar')).default
+        GitHubCalendar(this.$refs.calendar, this.$config.social.github, { responsive: true, tooltips: true });
+        this.initialized = true
+      } catch (e) {
+        // Silently ignore
+      }
+    }
   }
 }
 </script>

@@ -30,10 +30,6 @@
         <div v-if="$config.laguageSwitcher.enabled">
           <nuxt-link v-for="locale in availableLocales" :key="locale.code" :to="switchLocalePath(locale.code)" class="text-gray-300 hover:text-white" >{{ locale.name }}</nuxt-link>
         </div>
-        <div v-if="$config.firebase.enabled">
-          <div v-if="!user" @click="signInUser" class="active cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-bold">{{ $t('nav.signIn')}}</div>
-          <div v-else @click="signOutUser" class="active cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-bold">{{ $t('nav.signOut')}}</div>
-        </div>
         <a v-if="$config.blog.enabled" class="text-gray-300 hover:text-white" href="/feed.xml" target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path d="M5 3a1 1 0 000 2c5.523 0 10 4.477 10 10a1 1 0 102 0C17 8.373 11.627 3 5 3z" />
@@ -78,10 +74,6 @@
             <nuxt-link v-show="$config.resume.enabled" :to="localePath('/resume')" class="flex px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-gray-100 focus:bg-gray-500 transition duration-150 ease-in-out" role="menuitem">{{ $t('nav.resume')}}</nuxt-link>
             <a v-show="$config.buyMeACoffee.enabled" :href="$config.buyMeACoffee.url" target="_blank" rel="noreferrer" class="flex px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-gray-100 focus:bg-gray-500 transition duration-150 ease-in-out" role="menuitem">{{ $t('nav.buyMeACoffee')}}</a>
           </div>
-          <div v-if="$config.firebase.enabled">
-              <div v-if="!user" @click="signInUser" class="block w-full px-5 py-3 text-center font-medium text-gray-200 bg-indigo-700 hover:bg-indigo-600 hover:text-gray-200 focus:outline-none focus:bg-indigo-600 focus:text-gray-100 transition duration-150 ease-in-out">{{ $t('nav.signIn') }}</div>
-              <div v-else @click="signOutUser" class="block w-full px-5 py-3 text-center font-medium text-gray-200 bg-indigo-700 hover:bg-indigo-600 hover:text-gray-200 focus:outline-none focus:bg-indigo-600 focus:text-gray-100 transition duration-150 ease-in-out">{{ $t('nav.signOut') }}</div>
-          </div>
         </div>
       </div>
     </div>
@@ -94,9 +86,6 @@ import TheLogo from "~/components/logos/TheLogo";
 export default {
   components: {TheLogo},
   computed: {
-    user() {
-      return this.$store.state.user
-    },
     availableLocales () {
       return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
     }
@@ -104,24 +93,6 @@ export default {
   data() {
     return {
       mobileMenuOpen: false,
-      toastOptions: { duration: 3000, theme: 'bubble' }
-    }
-  },
-  methods: {
-    async signInUser() {
-      this.mobileMenuOpen = false
-      try {
-        const user = await this.$store.dispatch('signInUserWithGoogle')
-        this.$toast.success(`welcome ${user.displayName.toLowerCase()} 🙌`, this.toastOptions)
-      } catch (e) {
-        console.error(e)
-        this.$toast.error(e.toString(), this.toastOptions)
-      }
-    },
-    signOutUser() {
-      this.mobileMenuOpen = false
-      this.$store.dispatch('signOut')
-      this.$toast.show('see you next time 👋', this.toastOptions)
     }
   },
 }

@@ -8,15 +8,12 @@
     "build": "NODE_OPTIONS=--openssl-legacy-provider nuxt build",
     "start": "nuxt start",
     "generate": "NODE_OPTIONS=--openssl-legacy-provider nuxt generate -m",
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "test:debug": "playwright test --debug"
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@nuxt/content": "^1.14.0",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/feed": "^2.0.0",
-    "@nuxtjs/firebase": "^7.6.1",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/robots": "^2.5.0",
     "@nuxtjs/sitemap": "^2.4.0",
@@ -27,7 +24,6 @@
     "aos": "^2.3.4",
     "core-js": "^3.9.1",
     "date-fns": "^2.22.1",
-    "firebase": "^8.6.7",
     "github-calendar": "^2.2.7",
     "nuxt": "^2.15.3",
     "nuxt-i18n": "^6.27.0",
@@ -41,7 +37,6 @@
     "vue-typer": "^1.2.0"
   },
   "devDependencies": {
-    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/tailwindcss": "^4.0.3",
     "@playwright/test": "^1.57.0",
     "@tailwindcss/line-clamp": "^0.2.1",

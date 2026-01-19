@@ -16,8 +16,8 @@
               rel="noreferrer"
               :href="`https://twitter.com/${post.author.twitter}`"
             >
-              <div class="flex flex-items-center justify-center  rounded-full">
-                <UserAvatar :photoURL="post.author.image" :name="post.author.name" class="w-12 h-12 border-2 border-indigo-600 hover:border-hot-pink -mt-5 bg-gray-900 rounded-full"/>
+              <div class="flex flex-items-center justify-center rounded-full">
+                <img :src="post.author.image" :alt="post.author.name" class="w-12 h-12 border-2 border-indigo-600 hover:border-hot-pink -mt-5 bg-gray-900 rounded-full"/>
               </div>
             </a>
             <header class="py-4">
@@ -51,17 +51,7 @@
           </div>
 
         </div>
-        <div v-if="$config.firebase.enabled">
-          <div class="my-6">
-            <Like :slug="post.slug" />
-          </div>
-          <div id="comments" class="border-t border-gray-700 border-dashed mt-6 py-5">
-            <CommentInput :slug="post.slug"/>
-          </div>
-          <div class="space-y-4 max-w-7xl">
-            <Comment v-for="(comment, index) in comments" :comment="comment"  :key="index" />
-          </div>
-        </div>
+
       </article>
     </div>
   </div>
@@ -81,28 +71,6 @@ export default {
     post.twitterShareUrl = `https://twitter.com/intent/tweet?text=${post.title} by @${post.author.twitter}&url=https://${$config.domain}${route.fullPath}`
     return {
       post,
-    }
-  },
-  computed: {
-    comments() {
-      const comments = [ ...(this.$store.state.comments[this.post.slug] ? this.$store.state.comments[this.post.slug] : [])]
-      return comments.sort(this.cmp)
-    }
-  },
-  data() {
-    return {
-      toastOptions: { duration: 2000, theme: 'bubble' }
-    }
-  },
-  async fetch() {
-    if (!this.$config.firebase.enabled) {
-      return
-    }
-    try {
-      await this.$store.dispatch('fetchComments', {slug: this.post.slug})
-    } catch (e) {
-      this.$toast.error(e.toString(), this.toastOptions)
-      console.error(e)
     }
   },
   head() {
@@ -125,11 +93,6 @@ export default {
         top: 0,
         behavior: 'smooth'
       })
-    },
-    cmp(a, b) {
-      if (a.created < b.created) return 1
-      if (a.created > b.created) return -1
-      return 0
     }
   }
 }

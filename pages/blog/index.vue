@@ -25,9 +25,14 @@
 </template>
 
 <script>
+import BlogCard from '~/components/blog/BlogCard.vue'
+
 const ALL = 'all'
 
 export default {
+  components: {
+    BlogCard
+  },
   computed: {
     categories() {
       return [ALL, ...new Set(this.posts.map(post => post.category))]

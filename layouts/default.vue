@@ -7,7 +7,14 @@
 </template>
 
 <script>
+import TheNavBar from '~/components/TheNavBar.vue'
+import TheFooter from '~/components/TheFooter.vue'
+
 export default {
+  components: {
+    TheNavBar,
+    TheFooter
+  }
 }
 </script>
 
@@ -109,8 +116,3 @@ html {
   transform: rotate(12deg);
 }
 </style>
-<script>
-
-export default {
-}
-</script>
