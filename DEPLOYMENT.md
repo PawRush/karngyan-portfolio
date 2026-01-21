@@ -1,12 +1,12 @@
 # Deployment Summary
 
-Your app is deployed to AWS! Preview URL: https://dx7o06kmh9wnx.cloudfront.net
+Your app has a CodePipeline pipeline. Changes on GitHub branch `deploy-to-aws` will be deployed automatically. This is managed by CloudFormation stack `KarngyanPipelineStack`.
 
-**Next Step: Automate Deployments**
+Pipeline console: https://us-east-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/KarngyanPipeline/view
 
-You're currently using manual deployment. To automate deployments from GitHub, ask your coding agent to set up AWS CodePipeline using an agent SOP for pipeline creation. Try: "create a pipeline using AWS SOPs"
+Production URL: Will be available after first pipeline deployment completes
 
-Services used: CloudFront, S3, CloudFormation, IAM
+Services used: CodePipeline, CodeBuild, CodeConnections, CloudFront, S3, CloudFormation, IAM
 
 Questions? Ask your Coding Agent:
  - What resources were deployed to AWS?
@@ -15,17 +15,17 @@ Questions? Ask your Coding Agent:
 ## Quick Commands
 
 ```bash
-# View deployment status
-aws cloudformation describe-stacks --stack-name "KarngyanFrontend-preview-sergeyka" --query 'Stacks[0].StackStatus' --output text
+# View pipeline status
+aws codepipeline get-pipeline-state --name "KarngyanPipeline" --query 'stageStates[*].[stageName,latestExecution.status]' --output table
 
-# Invalidate CloudFront cache
-aws cloudfront create-invalidation --distribution-id "E3LKQ0232ME9KO" --paths "/*"
+# View build logs
+aws logs tail "/aws/codebuild/KarngyanPipelineStack-Synth" --follow
 
-# View CloudFront access logs (last hour)
-aws s3 ls "s3://karngyanfrontend-preview--cftos3cloudfrontloggingb-fhvr5htqehkv/" --recursive | tail -20
+# Trigger pipeline manually
+aws codepipeline start-pipeline-execution --name "KarngyanPipeline"
 
-# Redeploy
-./scripts/deploy.sh
+# Deploy changes
+git push origin deploy-to-aws
 ```
 
 ## Production Readiness
