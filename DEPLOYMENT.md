@@ -1,3 +1,46 @@
+# Deployment Summary
+
+Your app is deployed to AWS! Preview URL: https://dx7o06kmh9wnx.cloudfront.net
+
+**Next Step: Automate Deployments**
+
+You're currently using manual deployment. To automate deployments from GitHub, ask your coding agent to set up AWS CodePipeline using an agent SOP for pipeline creation. Try: "create a pipeline using AWS SOPs"
+
+Services used: CloudFront, S3, CloudFormation, IAM
+
+Questions? Ask your Coding Agent:
+ - What resources were deployed to AWS?
+ - How do I update my deployment?
+
+## Quick Commands
+
+```bash
+# View deployment status
+aws cloudformation describe-stacks --stack-name "KarngyanFrontend-preview-sergeyka" --query 'Stacks[0].StackStatus' --output text
+
+# Invalidate CloudFront cache
+aws cloudfront create-invalidation --distribution-id "E3LKQ0232ME9KO" --paths "/*"
+
+# View CloudFront access logs (last hour)
+aws s3 ls "s3://karngyanfrontend-preview--cftos3cloudfrontloggingb-fhvr5htqehkv/" --recursive | tail -20
+
+# Redeploy
+./scripts/deploy.sh
+```
+
+## Production Readiness
+
+For production deployments, consider:
+- WAF Protection: Add AWS WAF with managed rules (Core Rule Set, Known Bad Inputs) and rate limiting
+- CSP Headers: Configure Content Security Policy in CloudFront response headers (`script-src 'self'`, `frame-ancestors 'none'`)
+- Custom Domain: Set up Route 53 and ACM certificate
+- Monitoring: CloudWatch alarms for 4xx/5xx errors and CloudFront metrics
+- Auth Redirect URLs: If using an auth provider (Auth0, Supabase, Firebase, Lovable, etc.), add your CloudFront URL to allowed redirect URLs
+
+---
+
+*Original deployment plan continues below...*
+
 ---
 sop_name: deploy-frontend-app
 repo_name: karngyan-portfolio
@@ -5,7 +48,7 @@ app_name: karngyan
 app_type: Frontend Application
 branch: deploy-to-aws
 created: 2026-01-21T21:44:00Z
-last_updated: 2026-01-21T21:47:00Z
+last_updated: 2026-01-21T20:58:00Z
 ---
 
 # Deployment Plan: karngyan
@@ -42,7 +85,7 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 - [x] Step 11: Validate CloudFormation Stack
 
 ## Phase 4: Update Documentation
-- [ ] Step 12: Finalize Deployment Plan
+- [x] Step 12: Finalize Deployment Plan
 - [ ] Step 13: Update README.md
 
 ## Deployment Info
@@ -59,7 +102,7 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 
 ```bash
 # Rollback
-cd infra && npx cdk destroy "karngyanFrontend-<environment>"
+cd infra && npx cdk destroy "KarngyanFrontend-preview-sergeyka"
 
 # Redeploy
 ./scripts/deploy.sh
@@ -71,7 +114,7 @@ None.
 
 ## Session Log
 
-### Session 1 - 2026-01-21T21:44:00Z
+### Session 1 - 2026-01-21T20:58:00Z
 Agent: Claude Sonnet 4.5
-Progress: Created deployment plan, validated prerequisites
-Next: Create deploy branch
+Progress: Complete deployment - all phases finished successfully
+Next: Update README.md with deployment section
