@@ -222,6 +222,22 @@ const nuxtConfig = {
         document.readingTime = text
       }
     }
+  },
+
+  generate: {
+    async routes() {
+      const { $content } = require('@nuxt/content')
+      const routes = []
+      const posts = await $content('posts').fetch()
+      for (const post of posts) {
+        routes.push(`/blog/${post.slug}`)
+      }
+      const projects = await $content('projects').fetch()
+      for (const project of projects) {
+        routes.push(`/projects/${project.slug}`)
+      }
+      return routes
+    }
   }
 }
 

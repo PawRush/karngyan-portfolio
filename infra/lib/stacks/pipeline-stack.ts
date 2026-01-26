@@ -34,7 +34,7 @@ export class PipelineStack extends cdk.Stack {
 
         "npx -y @secretlint/quick-start '**/*'",
 
-        "npm run generate",
+        "npm run build",
 
         "cd infra",
         "npm run build",

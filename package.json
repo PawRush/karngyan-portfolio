@@ -5,9 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "NODE_OPTIONS=--openssl-legacy-provider nuxt",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider nuxt build",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider nuxt generate -m",
     "start": "nuxt start",
-    "generate": "NODE_OPTIONS=--openssl-legacy-provider nuxt generate -m",
     "test:e2e": "playwright test"
   },
   "dependencies": {
