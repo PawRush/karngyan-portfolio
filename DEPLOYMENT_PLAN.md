@@ -5,7 +5,7 @@ app_name: karngyan
 app_type: Frontend Application (Nuxt.js Static)
 branch: deploy-to-aws-20260130_032535-sergeyka
 created: 2026-01-30T04:31:00Z
-last_updated: 2026-01-30T04:38:00Z
+last_updated: 2026-01-30T04:48:00Z
 ---
 
 # Deployment Plan: karngyan.com
@@ -29,8 +29,8 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 - [x] Step 9: Validate CDK Synth
 
 ## Phase 3: Deploy and Validate
-- [ ] Step 10: Execute CDK Deployment
-- [ ] Step 11: Validate CloudFormation Stack
+- [x] Step 10: Execute CDK Deployment
+- [x] Step 11: Validate CloudFormation Stack
 
 ## Phase 4: Update Documentation
 - [ ] Step 12: Finalize Deployment Plan
@@ -46,10 +46,14 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 - Entry point: index.html
 - Routing: Static multi-page with /path/index.html structure
 - CloudFront config: URL rewrite function (rewrites /path to /path/index.html)
-- Deployment URL: (after completion)
-- Stack name: (after creation)
-- CloudFront distribution ID: (after creation)
-- S3 bucket name: (after creation)
+- Deployment URL: https://d2qku9qmoip7ew.cloudfront.net
+- Stack name: KarngyanFrontend-preview-sergeyka
+- CloudFront distribution ID: EHGCWSRWDZW2K
+- CloudFront domain: d2qku9qmoip7ew.cloudfront.net
+- S3 bucket name: karngyanfrontend-preview-se-cftos3s3bucketcae9f2be-zmkqy0g2jxw3
+- S3 log bucket: karngyanfrontend-preview--cftos3s3loggingbucket64b-gabvsshrymls
+- CloudFront log bucket: karngyanfrontend-preview--cftos3cloudfrontloggingb-wfvkbu32jccz
+- Deployment timestamp: 2026-01-30T04:43:00Z
 
 ## Recovery Guide
 
