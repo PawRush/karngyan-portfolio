@@ -5,7 +5,7 @@ app_name: karngyan
 app_type: Frontend Application (Nuxt.js Static)
 branch: deploy-to-aws-20260130_032535-sergeyka
 created: 2026-01-30T04:31:00Z
-last_updated: 2026-01-30T04:31:00Z
+last_updated: 2026-01-30T04:35:00Z
 ---
 
 # Deployment Plan: karngyan.com
@@ -16,10 +16,10 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 
 ## Phase 1: Gather Context and Configure
 - [x] Step 0: Inform User of Execution Flow
-- [...] Step 1: Create Deployment Plan
-- [ ] Step 2: Create Deploy Branch
-- [ ] Step 3: Detect Build Configuration
-- [ ] Step 4: Validate Prerequisites
+- [x] Step 1: Create Deployment Plan
+- [x] Step 2: Create Deploy Branch
+- [x] Step 3: Detect Build Configuration
+- [x] Step 4: Validate Prerequisites
 - [ ] Step 5: Revisit Deployment Plan
 
 ## Phase 2: Build CDK Infrastructure
@@ -38,10 +38,14 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 
 ## Deployment Info
 
-- Framework: Nuxt.js 2.x
-- Build command: npm run build
+- Framework: Nuxt.js 2.x (Static Site Generator)
+- Build command: npm run build (NODE_OPTIONS=--openssl-legacy-provider nuxt generate -m)
 - Output directory: dist/
 - Package manager: npm
+- Base path: / (root)
+- Entry point: index.html
+- Routing: Static multi-page with /path/index.html structure
+- CloudFront config: URL rewrite function (rewrites /path to /path/index.html)
 - Deployment URL: (after completion)
 - Stack name: (after creation)
 - CloudFront distribution ID: (after creation)
