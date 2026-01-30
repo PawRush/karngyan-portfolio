@@ -107,6 +107,14 @@ This project uses nuxt content, you can read about it [here](https://content.nux
 
 You can also set up [forestry](https://forestry.io) to never open code and use a cool editor. I'll add instructions to use that later.
 
+## Deployment
+
+Deployed at: https://d2qku9qmoip7ew.cloudfront.net, using the [deploy-frontend-app] Agent Standard Operation Procedure from the [AWS MCP](https://docs.aws.amazon.com/aws-mcp/latest/userguide/what-is-mcp-server.html).
+
+Deployment command: `./scripts/deploy.sh`
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for full details.
+
 ## Other Deployment Options
 
 My own website [karngyan.com](https://karngyan.com) is actually deployed on AWS in an S3 bucket, with Cloudfront. But that comes with a few caveats to configure and maintain.
