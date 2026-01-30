@@ -10,13 +10,17 @@ completed: 2026-01-30T04:48:00Z
 
 # Deployment Summary
 
-Your app is deployed to AWS! Preview URL: https://d2qku9qmoip7ew.cloudfront.net
+Your app is deployed to AWS with automated CI/CD!
 
-**Next Step: Automate Deployments**
+**Production URL:** (deployed via pipeline)
+**Preview URL:** https://d2qku9qmoip7ew.cloudfront.net
 
-You're currently using manual deployment. To automate deployments from GitHub, ask your coding agent to set up AWS CodePipeline using an agent SOP for pipeline creation. Try: "create a pipeline using AWS SOPs"
+**Pipeline:** KarngyanPipeline
+**Console:** https://us-east-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/KarngyanPipeline/view
 
-Services used: CloudFront, S3, CloudFormation, IAM
+**Deployment Trigger:** Push to `deploy-to-aws-20260130_032535-sergeyka` branch
+
+Services used: CodePipeline, CodeBuild, CodeConnections, CloudFront, S3, CloudFormation, IAM
 
 Questions? Ask your Coding Agent:
  - What resources were deployed to AWS?
@@ -25,16 +29,25 @@ Questions? Ask your Coding Agent:
 ## Quick Commands
 
 ```bash
-# View deployment status
+# Deploy to production (via pipeline)
+git push origin deploy-to-aws-20260130_032535-sergeyka
+
+# View pipeline status
+aws codepipeline get-pipeline-state --name "KarngyanPipeline" --query 'stageStates[*].[stageName,latestExecution.status]' --output table
+
+# View build logs
+aws logs tail "/aws/codebuild/KarngyanPipelineStack-Synth" --follow
+
+# Trigger pipeline manually
+aws codepipeline start-pipeline-execution --name "KarngyanPipeline"
+
+# View production stack status
+aws cloudformation describe-stacks --stack-name "KarngyanFrontend-prod" --query 'Stacks[0].StackStatus' --output text
+
+# View preview deployment status
 aws cloudformation describe-stacks --stack-name "KarngyanFrontend-preview-sergeyka" --query 'Stacks[0].StackStatus' --output text
 
-# Invalidate CloudFront cache
-aws cloudfront create-invalidation --distribution-id "EHGCWSRWDZW2K" --paths "/*"
-
-# View CloudFront access logs (last hour)
-aws s3 ls "s3://karngyanfrontend-preview--cftos3cloudfrontloggingb-wfvkbu32jccz/" --recursive | tail -20
-
-# Redeploy
+# Manual redeploy (preview only)
 ./scripts/deploy.sh
 ```
 
@@ -94,13 +107,33 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 - CloudFront log bucket: karngyanfrontend-preview--cftos3cloudfrontloggingb-wfvkbu32jccz
 - Deployment timestamp: 2026-01-30T04:43:00Z
 
+## Pipeline Info
+
+- Pipeline name: KarngyanPipeline
+- Pipeline stack: KarngyanPipelineStack
+- Pipeline ARN: arn:aws:codepipeline:us-east-1:126593893432:KarngyanPipeline
+- Source branch: deploy-to-aws-20260130_032535-sergeyka
+- Repository: PawRush/karngyan-portfolio
+- CodeConnection ARN: arn:aws:codeconnections:us-east-1:126593893432:connection/c140aa0c-7407-42c9-aa4b-7c81f5faf40b
+- CodeConnection status: AVAILABLE
+- Production stack: KarngyanFrontend-prod
+- Quality checks: None (no lint/test scripts in project)
+- Deployment trigger: Push to branch
+- Pipeline timestamp: 2026-01-30T05:17:00Z
+
 ## Recovery Guide
 
 ```bash
-# Rollback
+# Destroy pipeline
+cd infra && npm run destroy:pipeline
+
+# Destroy preview stack
 cd infra && cdk destroy "KarngyanFrontend-preview-sergeyka"
 
-# Redeploy
+# Destroy production stack
+cd infra && cdk destroy "KarngyanFrontend-prod" --context codeConnectionArn=arn:aws:codeconnections:us-east-1:126593893432:connection/c140aa0c-7407-42c9-aa4b-7c81f5faf40b
+
+# Manual redeploy (preview)
 ./scripts/deploy.sh
 ```
 
@@ -118,3 +151,11 @@ Progress: Complete deployment from initial setup through all phases
 - Phase 3: Executed CDK deployment, validated CloudFormation stack, confirmed website accessibility
 - Phase 4: Finalized documentation, created DEPLOYMENT.md and AGENTS.md, updated README.md
 Status: Deployment successful
+
+### Session 2 - 2026-01-30T05:17:00Z to 2026-01-30T05:20:00Z
+Agent: Claude Sonnet 4.5
+Progress: Complete pipeline setup from context gathering through deployment
+- Phase 1: Detected infrastructure, confirmed settings (repo: PawRush/karngyan-portfolio, branch: deploy-to-aws-20260130_032535-sergeyka, existing CodeConnection)
+- Phase 2: Created PipelineStack with CDK Pipelines, added synth commands, deployed KarngyanPipelineStack
+- Phase 3: Updated DEPLOYMENT.md with pipeline information, updated AGENTS.md and README.md
+Status: Pipeline deployment successful, first execution in progress

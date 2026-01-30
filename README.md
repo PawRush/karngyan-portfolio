@@ -109,9 +109,14 @@ You can also set up [forestry](https://forestry.io) to never open code and use a
 
 ## Deployment
 
-Deployed at: https://d2qku9qmoip7ew.cloudfront.net, using the [deploy-frontend-app] Agent Standard Operation Procedure from the [AWS MCP](https://docs.aws.amazon.com/aws-mcp/latest/userguide/what-is-mcp-server.html).
+Deployed to AWS with automated CI/CD pipeline.
 
-Deployment command: `./scripts/deploy.sh`
+**Preview:** https://d2qku9qmoip7ew.cloudfront.net
+**Pipeline:** https://us-east-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/KarngyanPipeline/view
+
+Deploy: `git push origin deploy-to-aws-20260130_032535-sergeyka`
+
+Created with the [deploy-frontend-app] and [setup-pipeline] Agent Standard Operation Procedures from the [AWS MCP](https://docs.aws.amazon.com/aws-mcp/latest/userguide/what-is-mcp-server.html).
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for full details.
 
