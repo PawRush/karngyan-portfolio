@@ -4,8 +4,48 @@ repo_name: karngyan-portfolio
 app_name: KarnGyan
 app_type: Frontend Application (Nuxt Static)
 branch: deploy-to-aws-20260501_121659-kamielw
-created: 2026-05-01 11:00:09 UTC
-last_updated: 2026-05-01 11:08:30 UTC
+completed: 2026-05-01 11:09:00 UTC
+---
+
+# Deployment Summary
+
+Your app is deployed to AWS! Preview URL: https://d3zqyfwry5k1b.cloudfront.net
+
+**Next Step: Automate Deployments**
+
+You're currently using manual deployment. To automate deployments from GitHub, ask your coding agent to set up AWS CodePipeline using an agent SOP for pipeline creation. Try: "create a pipeline using AWS SOPs"
+
+Services used: CloudFront, S3, CloudFormation, IAM
+
+Questions? Ask your Coding Agent:
+ - What resources were deployed to AWS?
+ - How do I update my deployment?
+
+## Quick Commands
+
+```bash
+# View deployment status
+aws cloudformation describe-stacks --stack-name "KarnGyanFrontend-preview-kamielw" --query 'Stacks[0].StackStatus' --output text
+
+# Invalidate CloudFront cache
+aws cloudfront create-invalidation --distribution-id "E2FXT18P356ERC" --paths "/*"
+
+# View CloudFront access logs (last hour)
+aws s3 ls "s3://karngyanfrontend-preview--cftos3cloudfrontloggingb-udi22ghjztod/" --recursive | tail -20
+
+# Redeploy
+./scripts/deploy.sh
+```
+
+## Production Readiness
+
+For production deployments, consider:
+- WAF Protection: Add AWS WAF with managed rules (Core Rule Set, Known Bad Inputs) and rate limiting
+- CSP Headers: Configure Content Security Policy in CloudFront response headers (`script-src 'self'`, `frame-ancestors 'none'`)
+- Custom Domain: Set up Route 53 and ACM certificate
+- Monitoring: CloudWatch alarms for 4xx/5xx errors and CloudFront metrics
+- Auth Redirect URLs: If using an auth provider (Auth0, Supabase, Firebase, Lovable, etc.), add your CloudFront URL to allowed redirect URLs
+
 ---
 
 # Deployment Plan: KarnGyan Portfolio
@@ -33,8 +73,8 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 - [x] Step 11: Validate CloudFormation Stack
 
 ## Phase 4: Update Documentation
-- [ ] Step 12: Finalize Deployment Plan
-- [ ] Step 13: Update README.md
+- [x] Step 12: Finalize Deployment Plan
+- [x] Step 13: Update README.md
 
 ## Deployment Info
 
@@ -68,5 +108,6 @@ None.
 
 ### Session 1 - 2026-05-01 11:00:09 UTC
 Agent: Claude Sonnet 4.5
-Progress: Phase 1 complete - created deployment plan, branch, detected build config (Nuxt 2 static), validated prerequisites (npm installed, build successful, CDK CLI ready)
-Next: Phase 2 - Initialize CDK infrastructure
+Progress: All phases completed successfully - deployed Nuxt 2 static site to AWS with CloudFront + S3
+URL: https://d3zqyfwry5k1b.cloudfront.net
+Stack: KarnGyanFrontend-preview-kamielw
