@@ -111,7 +111,13 @@ You can also set up [forestry](https://forestry.io) to never open code and use a
 
 Deployed at: https://d3zqyfwry5k1b.cloudfront.net, using the [deploy-frontend-app] Agent Standard Operation Procedure from the [AWS MCP](https://docs.aws.amazon.com/aws-mcp/latest/userguide/what-is-mcp-server.html).
 
-Deployment command: `./scripts/deploy.sh`
+### Pipeline
+
+Pipeline: https://eu-central-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/KarngyanPipeline/view
+
+Deploy: `git push origin deploy-to-aws-20260501_121659-kamielw`
+
+Continuous deployment pipeline created with the [setup-pipeline] Agent Standard Operation Procedure from the [AWS MCP](https://docs.aws.amazon.com/aws-mcp/latest/userguide/what-is-mcp-server.html).
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for full details.
 

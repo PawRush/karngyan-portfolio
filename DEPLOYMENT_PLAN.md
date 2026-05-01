@@ -5,7 +5,7 @@ app_name: Karngyan
 app_type: CI/CD Pipeline
 branch: deploy-to-aws-20260501_121659-kamielw
 created: 2026-05-01T12:00:00Z
-last_updated: 2026-05-01T12:15:00Z
+last_updated: 2026-05-01T13:30:00Z
 ---
 
 # Deployment Plan: Karngyan Portfolio Pipeline
@@ -26,27 +26,32 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 - [x] Phase 1 Checkpoint
 
 ## Phase 2: Build and Deploy Pipeline
-- [ ] Step 3: Create CDK Pipeline Stack
-- [ ] Step 4: CDK Bootstrap
-- [ ] Step 5.1: Push to remote
-- [ ] Step 5.2: Authorize CodeConnection
-- [ ] Step 5.3: Deploy pipeline stack
-- [ ] Step 5.4: Trigger pipeline
-- [ ] Step 6: Monitor Pipeline
-- [ ] Phase 2 Checkpoint
+- [x] Step 3: Create CDK Pipeline Stack
+- [x] Step 4: CDK Bootstrap
+- [x] Step 5.1: Push to remote
+- [x] Step 5.2: Authorize CodeConnection (already AVAILABLE)
+- [x] Step 5.3: Deploy pipeline stack
+- [x] Step 5.4: Trigger pipeline
+- [x] Step 6: Monitor Pipeline (all stages succeeded)
+- [x] Phase 2 Checkpoint
 
 ## Phase 3: Documentation
-- [ ] Step 7: Finalize Deployment Plan
-- [ ] Step 8: Update README.md
+- [...] Step 7: Finalize Deployment Plan
+- [x] Step 8: Update README.md
 - [ ] Completion Step
 
 ## Deployment Info
 
-- Pipeline URL: [after completion]
+- Pipeline URL: https://eu-central-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/KarngyanPipeline/view
+- Pipeline ARN: arn:aws:codepipeline:eu-central-1:189681391221:KarngyanPipeline
 - Stack name: KarngyanPipelineStack
 - CodeConnection ARN: arn:aws:codeconnections:eu-central-1:189681391221:connection/ee7a600a-99ab-4b3a-bf6c-b42cc9f5a026
 - Repository: PawRush/karngyan-portfolio
 - Branch: deploy-to-aws-20260501_121659-kamielw
+- Region: eu-central-1
+- Production URL: https://df3dksvujan2d.cloudfront.net
+- Production Stack: KarngyanFrontend-prod
+- Production Distribution ID: E26J9CYQOUK2GZ
 
 ## Recovery Guide
 
