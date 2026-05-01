@@ -5,7 +5,7 @@ app_name: KarnGyan
 app_type: Frontend Application (Nuxt Static)
 branch: deploy-to-aws-20260501_121659-kamielw
 created: 2026-05-01 11:00:09 UTC
-last_updated: 2026-05-01 11:05:00 UTC
+last_updated: 2026-05-01 11:08:30 UTC
 ---
 
 # Deployment Plan: KarnGyan Portfolio
@@ -29,8 +29,8 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 - [x] Step 9: Validate CDK Synth
 
 ## Phase 3: Deploy and Validate
-- [ ] Step 10: Execute CDK Deployment
-- [ ] Step 11: Validate CloudFormation Stack
+- [x] Step 10: Execute CDK Deployment
+- [x] Step 11: Validate CloudFormation Stack
 
 ## Phase 4: Update Documentation
 - [ ] Step 12: Finalize Deployment Plan
@@ -43,10 +43,12 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 - Build Command: `npm run build` (nuxt generate)
 - Output Directory: dist/
 - CloudFront Config: URL rewrite function (/path/index.html structure)
-- Deployment URL: [after completion]
-- Stack name: [after creation]
-- Distribution ID: [after creation]
-- S3 Bucket Name: [after creation]
+- Deployment URL: https://d3zqyfwry5k1b.cloudfront.net
+- Stack name: KarnGyanFrontend-preview-kamielw
+- Distribution ID: E2FXT18P356ERC
+- S3 Bucket Name: karngyanfrontend-preview-ka-cftos3s3bucketcae9f2be-mnp7egcpfhp2
+- CloudFront Log Bucket: karngyanfrontend-preview--cftos3cloudfrontloggingb-udi22ghjztod
+- S3 Log Bucket: karngyanfrontend-preview--cftos3s3loggingbucket64b-fozeeagxzzyl
 
 ## Recovery Guide
 
