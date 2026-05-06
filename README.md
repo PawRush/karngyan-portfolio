@@ -23,9 +23,13 @@ Visit: [template.karngyan.com](https://template.karngyan.com) to see all feature
 
 ## Deployment
 
-Deployed at: https://dg6evzn98m62z.cloudfront.net, using the [deploy-frontend-app] Agent Standard Operation Procedure from the [AWS MCP](https://docs.aws.amazon.com/aws-mcp/latest/userguide/what-is-mcp-server.html).
+Deployed at: https://dg6evzn98m62z.cloudfront.net with automated CI/CD via AWS CodePipeline.
 
-Deployment command: `./scripts/deploy.sh`
+**Pipeline**: https://eu-central-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/KarnPortfolioPipeline/view
+
+**Deploy**: Push to branch `deploy-to-aws-20260506_150212-kamielw` triggers automatic deployment.
+
+Initial deployment using [deploy-frontend-app] and pipeline setup using [setup-pipeline] Agent Standard Operation Procedures from the [AWS MCP](https://docs.aws.amazon.com/aws-mcp/latest/userguide/what-is-mcp-server.html).
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for full details.
 

@@ -16,21 +16,33 @@ entry_point: index.html
 
 # Deployment Summary
 
-Your app is deployed to AWS! Preview URL: https://dg6evzn98m62z.cloudfront.net
+Your app is deployed to AWS with automated CI/CD!
 
-**Next Step: Automate Deployments**
+**Preview URL**: https://dg6evzn98m62z.cloudfront.net  
+**Pipeline Console**: https://eu-central-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/KarnPortfolioPipeline/view
 
-You're currently using manual deployment. To automate deployments from GitHub, ask your coding agent to set up AWS CodePipeline using an agent SOP for pipeline creation. Try: "create a pipeline using AWS SOPs"
+Changes pushed to branch `deploy-to-aws-20260506_150212-kamielw` trigger automatic deployment via AWS CodePipeline
 
-Services used: CloudFront, S3, CloudFormation, IAM
+Services used: CloudFront, S3, CloudFormation, IAM, CodePipeline, CodeBuild, CodeConnections
 
 Questions? Ask your Coding Agent:
  - What resources were deployed to AWS?
  - How do I update my deployment?
+ - How can I change the pipeline branch?
+ - How do I troubleshoot pipeline failures?
 
 ## Quick Commands
 
 ```bash
+# View pipeline status
+AWS_PAGER="" aws codepipeline get-pipeline-state --name "KarnPortfolioPipeline" --region eu-central-1 --query 'stageStates[*].[stageName,latestExecution.status]' --output table
+
+# View build logs
+AWS_PAGER="" aws logs tail "/aws/codebuild/KarnPortfolioPipelineStack-PipelineBuildSynthCdkBuildProject" --region eu-central-1 --follow
+
+# Trigger pipeline manually
+aws codepipeline start-pipeline-execution --name "KarnPortfolioPipeline" --region eu-central-1
+
 # View deployment status
 AWS_PAGER="" aws cloudformation describe-stacks --stack-name "KarnPortfolioFrontend-preview-kamielw" --region eu-central-1 --query 'Stacks[0].StackStatus' --output text
 
@@ -39,9 +51,6 @@ AWS_PAGER="" aws cloudfront create-invalidation --distribution-id "E3SQBIER9MYQ0
 
 # View CloudFront access logs (last hour)
 AWS_PAGER="" aws s3 ls "s3://karnportfoliofrontend-pre-cftos3cloudfrontloggingb-ptxyvna6zjgu/" --recursive | tail -20
-
-# Redeploy
-./scripts/deploy.sh
 ```
 
 ## Production Readiness
@@ -85,15 +94,25 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
 
 ## Deployment Info
 
+### Pipeline (Automated Deployment)
+- **Pipeline URL**: https://eu-central-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/KarnPortfolioPipeline/view
+- **Pipeline ARN**: arn:aws:codepipeline:eu-central-1:189681391221:KarnPortfolioPipeline
+- **Pipeline Stack**: KarnPortfolioPipelineStack
+- **CodeConnection ARN**: arn:aws:codeconnections:eu-central-1:189681391221:connection/ee7a600a-99ab-4b3a-bf6c-b42cc9f5a026
+- **Source Branch**: deploy-to-aws-20260506_150212-kamielw
+- **Repository**: PawRush/karngyan-portfolio
+
+### Frontend Application
 - **Deployment URL**: https://dg6evzn98m62z.cloudfront.net
-- **Stack name**: KarnPortfolioFrontend-preview-kamielw
+- **Stack name**: KarnPortfolioFrontend-preview-kamielw (will be KarnPortfolioFrontend-prod when pipeline deploys)
 - **Region**: eu-central-1
 - **Distribution ID**: E3SQBIER9MYQ0I
 - **Distribution Domain**: dg6evzn98m62z.cloudfront.net
 - **S3 Bucket**: karnportfoliofrontend-previ-cftos3s3bucketcae9f2be-apflypixshgi
 - **CloudFront Log Bucket**: karnportfoliofrontend-pre-cftos3cloudfrontloggingb-ptxyvna6zjgu
 - **S3 Log Bucket**: karnportfoliofrontend-pre-cftos3s3loggingbucket64b-7zzyaa2wsvaq
-- **Deployment Timestamp**: 2026-05-06T16:05:48Z
+- **Initial Deployment**: 2026-05-06T16:05:48Z
+- **Pipeline Setup**: 2026-05-06T16:16:00Z
 
 ## Recovery Guide
 
@@ -130,6 +149,45 @@ AWS_PAGER="" npx cdk destroy "KarnPortfolioFrontend-preview-kamielw" --region eu
    - S3 access logs → Separate S3 bucket
    - CloudFront access logs → Separate S3 bucket
 
+## Pipeline Troubleshooting
+
+### Pipeline Source Stage Failed
+
+Check CodeConnection status:
+```bash
+aws codeconnections get-connection --connection-arn "arn:aws:codeconnections:eu-central-1:189681391221:connection/ee7a600a-99ab-4b3a-bf6c-b42cc9f5a026" --query 'Connection.ConnectionStatus' --output text
+```
+
+If status is not `AVAILABLE`, re-authorize at:
+https://eu-central-1.console.aws.amazon.com/codesuite/settings/connections
+
+### Build Stage Failed
+
+View logs:
+```bash
+AWS_PAGER="" aws logs tail "/aws/codebuild/KarnPortfolioPipelineStack-PipelineBuildSynthCdkBuildProject" --region eu-central-1 --follow
+```
+
+Common issues:
+- Secretlint detected secrets in code
+- Build command failed (check `npm run build` locally)
+- CDK synth failed (check TypeScript compilation in `infra/`)
+
+### Deploy Stage Failed
+
+View CloudFormation events:
+```bash
+AWS_PAGER="" aws cloudformation describe-stack-events --stack-name "KarnPortfolioFrontend-prod" --region eu-central-1 --query 'StackEvents[?ResourceStatus==`CREATE_FAILED` || ResourceStatus==`UPDATE_FAILED`]' --output table
+```
+
+### Stale Content After Deploy
+
+CloudFront cache needs invalidation:
+```bash
+DISTRIBUTION_ID=$(aws cloudformation describe-stacks --stack-name "KarnPortfolioFrontend-prod" --region eu-central-1 --query 'Stacks[0].Outputs[?OutputKey==`DistributionId`].OutputValue' --output text)
+aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*"
+```
+
 ## Issues Encountered
 
 None.
@@ -144,3 +202,14 @@ Progress: Full deployment completed successfully
 - Deployed to eu-central-1 region
 - Validated stack and URL accessibility
 Status: ✅ Complete
+
+### Session 2 - 2026-05-06T16:02:00Z - 2026-05-06T16:16:00Z
+Agent: Claude Sonnet 4.5
+Progress: CI/CD pipeline setup completed
+- Detected existing frontend infrastructure (Nuxt.js, no backend/secrets)
+- Created CDK Pipeline Stack with GitHub CodeConnection integration
+- Added secretlint quality check (no lint/unit tests available)
+- Deployed KarnPortfolioPipelineStack to eu-central-1
+- Pipeline stages: Source → Build (Synth) → UpdatePipeline → Assets → Deploy
+- Target deployment: KarnPortfolioFrontend-prod stack
+Status: ✅ Pipeline infrastructure complete
