@@ -22,11 +22,11 @@ Coding Agents should follow this Deployment Plan, and validate previous progress
   - [x] 2.2: Detect app name and git repository
   - [x] 2.3: Determine quality checks
   - [x] 2.4: User confirmation
-  - [ ] 2.5: Verify CodeConnection
+  - [x] 2.5: Verify CodeConnection (needs authorization)
   - [ ] 2.6: Ensure Production Secrets (skipped - not required)
 
 ## Phase 2: Build and Deploy Pipeline
-- [ ] Step 3: Create CDK Pipeline Stack
+- [x] Step 3: Create CDK Pipeline Stack
 - [ ] Step 4: CDK Bootstrap
 - [ ] Step 5: Deploy Pipeline
   - [ ] 5.1: Push to remote
