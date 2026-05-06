@@ -21,6 +21,14 @@
 
 Visit: [template.karngyan.com](https://template.karngyan.com) to see all feature enabled version of this template.
 
+## Deployment
+
+Deployed at: https://dg6evzn98m62z.cloudfront.net, using the [deploy-frontend-app] Agent Standard Operation Procedure from the [AWS MCP](https://docs.aws.amazon.com/aws-mcp/latest/userguide/what-is-mcp-server.html).
+
+Deployment command: `./scripts/deploy.sh`
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for full details.
+
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Table of Contents</summary>
